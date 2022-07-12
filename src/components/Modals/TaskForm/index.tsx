@@ -1,4 +1,4 @@
-import React, { useId } from "react";
+import React, { memo, useId } from "react";
 import { Form, Formik } from "formik";
 import { useAppDispatch } from "../../../hooks";
 import { add, edit } from "../../../store/slices/todoSlice";
@@ -10,7 +10,7 @@ const { TextArea } = Input;
 
 interface IProps {
   visible: boolean;
-  onClose: () => void;
+  onClose: (e?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
   item?: ITask;
 }
 
@@ -44,7 +44,6 @@ const TaskForm = ({ visible, onClose, item }: IProps) => {
           initialValues={initialValues}
           validationSchema={yupSchema}
           onSubmit={(values) => {
-            console.log("form add", values);
             if (editMode) {
               dispatch(edit(values));
             } else {
@@ -95,4 +94,4 @@ const TaskForm = ({ visible, onClose, item }: IProps) => {
   );
 };
 
-export default TaskForm;
+export default memo(TaskForm);

@@ -2,6 +2,7 @@ import { Button, Modal } from "antd";
 import React, { useState } from "react";
 import EmptyAction from "../../components/EmptyAction";
 import TaskForm from "../../components/Modals/TaskForm";
+import DoneTasks from "../../components/Modals/DoneTasks";
 import PageTitle from "../../components/PageTitle";
 import { IStore } from "../../types";
 import { useAppSelector } from "../../hooks";
@@ -11,6 +12,7 @@ import { PlusOutlined } from "@ant-design/icons";
 const HomeContainer = () => {
   const todos = useAppSelector((store: IStore) => store.todos);
   const [modalForm, setModalForm] = useState<boolean>(false);
+  const [modalDoneTasks, setModalDoneTasks] = useState<boolean>(false);
 
   if (todos.length === 0) {
     return (
@@ -24,7 +26,7 @@ const HomeContainer = () => {
     <>
       <PageTitle>Hello World</PageTitle>
       <div>
-        <Button type="primary">View Done Tasks</Button>
+        <Button onClick={() => setModalDoneTasks(true)} type="primary">View Done Tasks</Button>
         <div>
           {todos
             .filter((item) => item.status === "Todo")
@@ -33,10 +35,17 @@ const HomeContainer = () => {
             ))}
         </div>
         <div>
-          <Button onClick={() => setModalForm(true)} size="large" type="primary" shape="circle" icon={<PlusOutlined />}></Button>
+          <Button
+            onClick={() => setModalForm(true)}
+            size="large"
+            type="primary"
+            shape="circle"
+            icon={<PlusOutlined />}
+          ></Button>
         </div>
       </div>
       <TaskForm visible={modalForm} onClose={() => setModalForm(false)} />
+      <DoneTasks visible={modalDoneTasks} onClose={() => setModalDoneTasks(false)} />
     </>
   );
 };

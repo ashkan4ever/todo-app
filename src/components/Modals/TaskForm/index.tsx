@@ -1,4 +1,4 @@
-import React, { memo, useId } from "react";
+import React, { memo } from "react";
 import { Form, Formik } from "formik";
 import { useAppDispatch } from "../../../hooks";
 import { add, edit } from "../../../store/slices/todoSlice";
@@ -17,7 +17,6 @@ interface IProps {
 const TaskForm = ({ visible, onClose, item }: IProps) => {
   const dispatch = useAppDispatch();
   const editMode = item?.id;
-  const id = useId();
 
   const yupSchema = Yup.object().shape({
     title: Yup.string().required("sdfs"),
@@ -47,9 +46,9 @@ const TaskForm = ({ visible, onClose, item }: IProps) => {
             if (editMode) {
               dispatch(edit(values));
             } else {
-              dispatch(add({ ...values, id }));
+              dispatch(add(values));
             }
-            onClose()
+            onClose();
           }}
           render={(formikProps) => (
             <Form>
@@ -83,7 +82,7 @@ const TaskForm = ({ visible, onClose, item }: IProps) => {
               </Radio.Group>
               <div>
                 <Button type="primary" htmlType="submit">
-                  {editMode? 'Edit' : 'Add'}
+                  {editMode ? "Edit" : "Add"}
                 </Button>
               </div>
             </Form>

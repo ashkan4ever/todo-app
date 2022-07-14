@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import Task from '../../models/task';
 import { IStore, ITask } from '../../types'
 
 const initialState: ITask[] = [];
@@ -16,7 +17,7 @@ export const todoSlice = createSlice({
        return state.filter(item => item.id === action.payload.id)
     },
     add: (state, action: PayloadAction<ITask>) => {
-        state.push(action.payload)
+        state.push(new Task(action.payload))
         return state
     },
     perform: (state, action: PayloadAction<ITask>) => {

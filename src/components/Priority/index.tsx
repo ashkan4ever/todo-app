@@ -1,22 +1,21 @@
+/** @jsxImportSource @emotion/react */
 import { memo } from "react";
 import { Space } from "antd";
-import TaskForm from "../../components/Modals/TaskForm";
-import React, { useState } from "react";
-import { ITask, PriorityType } from "../../types";
+import { PriorityType } from "../../types";
+import { container, circle, textStyle } from "./style";
 
 interface IProps {
-    priority: PriorityType;
+  priority: PriorityType;
+  color?: string;
 }
 
-const TaskItem = ({ priority }: IProps) => {
-  const [modalForm, setModalForm] = useState<boolean>(false);
-
+const Priority = ({ priority, color = "#fff" }: IProps) => {
   return (
-    <Space>
-      <span>{priority}</span>
-      <div className="priority-circle"></div>
+    <Space css={container}>
+      <span css={textStyle(color)}>{priority}</span>
+      <div css={circle(color)}></div>
     </Space>
   );
 };
 
-export default memo(TaskItem);
+export default memo(Priority);

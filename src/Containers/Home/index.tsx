@@ -1,18 +1,19 @@
-import { Button, Modal } from "antd";
-import React, { useState } from "react";
+/** @jsxImportSource @emotion/react */
+import { useState } from "react";
+import Button from "antd-button-color";
 import EmptyAction from "../../components/EmptyAction";
 import TaskForm from "../../components/Modals/TaskForm";
-import DoneTasks from "../../components/Modals/DoneTasks";
 import PageTitle from "../../components/PageTitle";
-import { IStore } from "../../types";
 import { useAppSelector } from "../../hooks";
 import TaskItem from "../../components/TaskItem";
 import { PlusOutlined } from "@ant-design/icons";
+import { container, listContainer, alignRight } from "./style";
 
 const HomeContainer = () => {
-  const todos = useAppSelector((store: IStore) => store.todos);
+  const todos = useAppSelector((store) =>
+    store.todos.filter((item) => item.status === "Todo")
+  );
   const [modalForm, setModalForm] = useState<boolean>(false);
-  const [modalDoneTasks, setModalDoneTasks] = useState<boolean>(false);
 
   if (todos.length === 0) {
     return (
@@ -25,16 +26,15 @@ const HomeContainer = () => {
   return (
     <>
       <PageTitle>Hello World</PageTitle>
-      <div>
-        <Button onClick={() => setModalDoneTasks(true)} type="primary">View Done Tasks</Button>
-        <div>
+      <div css={container}>
+        <div css={listContainer}>
           {todos
             .filter((item) => item.status === "Todo")
             .map((item) => (
               <TaskItem key={item.id} item={item} />
             ))}
         </div>
-        <div>
+        <div css={alignRight}>
           <Button
             onClick={() => setModalForm(true)}
             size="large"
@@ -45,7 +45,6 @@ const HomeContainer = () => {
         </div>
       </div>
       <TaskForm visible={modalForm} onClose={() => setModalForm(false)} />
-      <DoneTasks visible={modalDoneTasks} onClose={() => setModalDoneTasks(false)} />
     </>
   );
 };

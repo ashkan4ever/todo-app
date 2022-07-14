@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+    "@emotion/react": "^11.9.3",
     "@reduxjs/toolkit": "^1.8.3",
     "antd": "^4.21.6",
+    "antd-button-color": "^1.0.4",
     "formik": "^2.2.9",
     "next": "12.2.2",
     "next-redux-wrapper": "^7.0.5",

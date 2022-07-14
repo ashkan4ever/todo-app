@@ -1,12 +1,16 @@
+/** @jsxImportSource @emotion/react */
 import { memo } from "react";
-import { Button, Modal, Space } from "antd";
+import { Space } from "antd";
+import Button from "antd-button-color";
 import TaskForm from "../../components/Modals/TaskForm";
 import TaskShow from "../../components/Modals/TaskShow";
-import React, { useState } from "react";
+import { useState } from "react";
 import { ITask } from "../../types";
 import Priority from "../Priority";
 import { useAppDispatch } from "../../hooks";
 import { perform } from "../../store/slices/todoSlice";
+import { container } from "./style";
+import TooltipEllipsis from "../TooltipEllipsis";
 
 interface IProps {
   item: ITask;
@@ -19,43 +23,49 @@ const TaskItem = ({ item }: IProps) => {
 
   return (
     <div
+      css={container}
       onClick={() => {
         setShowTask(true);
       }}
     >
-      <div>
-        <h3>{item.title}</h3>
-        <Priority priority={item.priority} />
-      </div>
-      <div>
-        <span>{item.text}</span>
-        {item.status !== "Done" && (
-          <Space>
-            <Button
-              onClick={(e) => {
-                e.stopPropagation();
-                setModalForm(true);
-              }}
-            >
-              Edit
-            </Button>
-            <Button
-              type="primary"
-              onClick={(e) => {
-                e.stopPropagation();
-                dispatch(perform(item));
-              }}
-            >
-              Done
-            </Button>
-          </Space>
-        )}
-      </div>
+      <TooltipEllipsis
+        text={item.title}
+        renderProp={(style) => <h3 css={style}>{item.title}</h3>}
+      />
+      <Priority priority={item.priority} color={item.priorityColor} />
+      <TooltipEllipsis
+        text={item.text}
+        renderProp={(style) => <span css={style}>{item.text}</span>}
+      />
+      {item.status !== "Done" && (
+        <Space size="middle">
+          <Button
+            ghost
+            type="info"
+            onClick={(e) => {
+              e.stopPropagation();
+              setModalForm(true);
+            }}
+          >
+            Edit
+          </Button>
+          <Button
+            type="success"
+            onClick={(e) => {
+              e.stopPropagation();
+              dispatch(perform(item));
+            }}
+          >
+            Done
+          </Button>
+        </Space>
+      )}
       <TaskForm
         visible={modalForm}
         onClose={(e) => {
-            e?.stopPropagation();
-            setModalForm(false)}}
+          e?.stopPropagation();
+          setModalForm(false);
+        }}
         item={item}
       />
       <TaskShow

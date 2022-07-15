@@ -31,4 +31,10 @@ export default css`
     min-height: 100vh;
     padding: 100px 40px;
   }
+
+  @media only screen and (max-width: 600px) {
+    .main-container {
+      padding: 100px 15px;
+    }
+  }
 `;

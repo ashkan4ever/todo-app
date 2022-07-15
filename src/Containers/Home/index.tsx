@@ -1,20 +1,22 @@
 /** @jsxImportSource @emotion/react */
 import Button from "antd-button-color";
-import EmptyAction from "../../components/EmptyAction";
-import TaskForm from "../../components/Modals/TaskForm";
-import PageTitle from "../../components/PageTitle";
-import { useAppDispatch, useAppSelector } from "../../utils/hooks";
-import TaskItem from "../../components/TaskItem";
 import { PlusOutlined } from "@ant-design/icons";
-import { container, listContainer, alignRight } from "./style";
-import DoneTasks from "../../components/Modals/DoneTasks";
-import TaskShow from "../../components/Modals/TaskShow";
+import {
+  EmptyAction,
+  PageTitle,
+  TaskItem,
+  ModalDoneTasks,
+  ModalTaskForm,
+  ModalTaskShow,
+} from "@/components";
+import { useAppDispatch, useAppSelector } from "@/utils/hooks";
 import {
   closeDoneTasks,
   closeFormTask,
   closeShowTask,
   showFormTask,
-} from "../../store/slices/modalSlice";
+} from "@/store/slices/modalSlice";
+import { container, listContainer, alignRight } from "./style";
 
 const HomeContainer = () => {
   const todos = useAppSelector((store) => store.todos);
@@ -48,21 +50,21 @@ const HomeContainer = () => {
       )}
 
       {modals.formTask.visible && (
-        <TaskForm
+        <ModalTaskForm
           visible={modals.formTask.visible}
           item={modals.formTask.item}
           onClose={() => dispatch(closeFormTask())}
         />
       )}
       {modals.showTask.visible && modals.showTask.item && (
-        <TaskShow
+        <ModalTaskShow
           visible={modals.showTask.visible}
           onClose={() => dispatch(closeShowTask())}
           item={modals.showTask.item}
         />
       )}
       {modals.doneTasks && (
-        <DoneTasks
+        <ModalDoneTasks
           visible={modals.doneTasks}
           onClose={() => dispatch(closeDoneTasks())}
         />

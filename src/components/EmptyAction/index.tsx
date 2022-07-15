@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { memo } from "react";
 import { Button, Empty } from "antd";
+import { useAppDispatch, useAppSelector } from "@/utils/hooks";
+import { showFormTask } from "@/store/slices/modalSlice";
 import { container } from "./style";
-import { useAppDispatch, useAppSelector } from "../../utils/hooks";
-import { showFormTask } from "../../store/slices/modalSlice";
 
 const EmptyAction = () => {
   const tasksCount = useAppSelector((store) => store.todos.length);

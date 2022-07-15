@@ -2,12 +2,11 @@
 import { memo } from "react";
 import { Space } from "antd";
 import Button from "antd-button-color";
-import Priority from "../Priority";
-import { useAppDispatch } from "../../utils/hooks";
-import { ITask, perform } from "../../store/slices/todoSlice";
+import { Priority, TooltipEllipsis } from "@/components";
+import { useAppDispatch } from "@/utils/hooks";
+import { ITask, perform } from "@/store/slices/todoSlice";
+import { showFormTask, showShowTask } from "@/store/slices/modalSlice";
 import { container } from "./style";
-import TooltipEllipsis from "../TooltipEllipsis";
-import { showFormTask, showShowTask } from "../../store/slices/modalSlice";
 
 interface IProps {
   item: ITask;

@@ -1,7 +1,8 @@
 /** @jsxImportSource @emotion/react */
+import { memo } from "react";
 import { Modal } from "antd";
-import { useAppSelector } from "../../../utils/hooks";
-import TaskItem from "../../../components/TaskItem";
+import { useAppSelector } from "@/utils/hooks";
+import { TaskItem } from "@/components";
 import { listContainer } from "./style";
 
 interface IProps {
@@ -32,4 +33,4 @@ const DoneTasks = ({ visible, onClose }: IProps) => {
   );
 };
 
-export default DoneTasks;
+export default memo(DoneTasks);

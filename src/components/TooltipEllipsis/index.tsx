@@ -1,15 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { memo, ReactNode } from "react";
 import { Tooltip } from "antd";
-import { textStyle } from "./style";
 import { SerializedStyles } from "@emotion/react";
+import { textStyle } from "./style";
 
 interface IProps {
   text: string;
   renderProp: (style: SerializedStyles) => ReactNode;
 }
 
-const TaskItem = ({ text, renderProp }: IProps) => {
+const TooltipEllipsis = ({ text, renderProp }: IProps) => {
   return (
     <div css={textStyle}>
       <Tooltip title={text}>{renderProp(textStyle)}</Tooltip>
@@ -17,4 +17,4 @@ const TaskItem = ({ text, renderProp }: IProps) => {
   );
 };
 
-export default memo(TaskItem);
+export default memo(TooltipEllipsis);

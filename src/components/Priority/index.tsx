@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { memo, useCallback } from "react";
 import { Space } from "antd";
+import { PriorityType } from "@/store/slices/todoSlice";
 import { container, circle, textStyle } from "./style";
-import { PriorityType } from "../../store/slices/todoSlice";
 
 interface IProps {
   priority: PriorityType;
@@ -18,9 +18,6 @@ const Priority = ({ priority, align = "right" }: IProps) => {
         return "#fbbc43";
       case "Low":
         return "green";
-
-      default:
-        return "white";
     }
   }, [priority]);
 

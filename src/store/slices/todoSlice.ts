@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { idGenerator } from "../../utils/helpers";
+import { idGenerator } from "@/utils/helpers";
 
 export type PriorityType = "High" | "Medium" | "Low";
 

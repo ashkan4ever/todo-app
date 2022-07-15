@@ -14,4 +14,13 @@ export const container = css`
   &:hover {
     box-shadow: 0 3px 7px -2px grey;
   }
+
+  @media only screen and (max-width: 600px) {
+    grid-template-columns: minmax(0, 1fr);
+    text-align: center;
+
+    & > *:last-child {
+      margin: auto;
+    }
+  }
 `;

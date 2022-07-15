@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import { ReactNode } from "react";
+import { memo, ReactNode } from "react";
 import Button from "antd-button-color";
+import { useAppDispatch, useAppSelector } from "@/utils/hooks";
+import { showDoneTasks } from "@/store/slices/modalSlice";
 import { titleStyle, container, leftButton } from "./style";
-import { useAppDispatch, useAppSelector } from "../../utils/hooks";
-import { showDoneTasks } from "../../store/slices/modalSlice";
+
 interface IProps {
   children: ReactNode;
 }
@@ -16,6 +17,7 @@ const PageTitle = ({ children }: IProps) => {
 
   return (
     <div css={container}>
+      <h1 css={titleStyle}>{children}</h1>
       {completedTasks.length > 0 && (
         <Button
           css={leftButton}
@@ -25,10 +27,8 @@ const PageTitle = ({ children }: IProps) => {
           View Done Tasks
         </Button>
       )}
-
-      <h1 css={titleStyle}>{children}</h1>
     </div>
   );
 };
 
-export default PageTitle;
+export default memo(PageTitle);

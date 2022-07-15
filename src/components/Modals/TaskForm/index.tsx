@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import React, { memo } from "react";
-import { Form, Formik } from "formik";
-import { useAppDispatch } from "../../../utils/hooks";
-import { add, edit, ITask } from "../../../store/slices/todoSlice";
-import * as Yup from "yup";
+import { memo } from "react";
 import { Input, Radio, Modal, Button } from "antd";
+import { Form, Formik } from "formik";
+import * as Yup from "yup";
+import { useAppDispatch } from "@/utils/hooks";
+import { add, edit, ITask } from "@/store/slices/todoSlice";
 import { buttonContainer, container, labelText } from "./style";
 
 const { TextArea } = Input;
@@ -17,7 +17,7 @@ interface IProps {
 
 const TaskForm = ({ visible, onClose, item }: IProps) => {
   const dispatch = useAppDispatch();
-  const editMode = item?.id;
+  const editMode = !!item?.id;
 
   const yupSchema = Yup.object().shape({
     title: Yup.string().required("sdfs"),

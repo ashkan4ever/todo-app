@@ -1,19 +1,33 @@
 /** @jsxImportSource @emotion/react */
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { Space } from "antd";
-import { PriorityType } from "../../types";
 import { container, circle, textStyle } from "./style";
+import { PriorityType } from "../../store/slices/todoSlice";
 
 interface IProps {
   priority: PriorityType;
-  color?: string;
+  align?: "left" | "right";
 }
 
-const Priority = ({ priority, color = "#fff" }: IProps) => {
+const Priority = ({ priority, align = "right" }: IProps) => {
+  const setColor = useCallback(() => {
+    switch (priority) {
+      case "High":
+        return "red";
+      case "Medium":
+        return "#fbbc43";
+      case "Low":
+        return "green";
+
+      default:
+        return "white";
+    }
+  }, [priority]);
+
   return (
-    <Space css={container}>
-      <span css={textStyle(color)}>{priority}</span>
-      <div css={circle(color)}></div>
+    <Space css={container(align)}>
+      <span css={textStyle(setColor())}>{priority}</span>
+      <div css={circle(setColor())}></div>
     </Space>
   );
 };

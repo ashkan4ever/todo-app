@@ -1,7 +1,8 @@
 import { css } from "@emotion/react";
 
-export const container = css`
+export const container = (align: string) => css`
   justify-content: flex-end;
+  ${align === "left" ? "flex-direction: row-reverse;" : ""}
 `;
 
 export const circle = (color: string) => css`

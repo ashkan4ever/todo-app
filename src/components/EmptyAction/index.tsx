@@ -1,20 +1,20 @@
 /** @jsxImportSource @emotion/react */
 import { memo } from "react";
 import { Button, Empty } from "antd";
-import TaskForm from "../../components/Modals/TaskForm";
-import React, { useState } from "react";
 import { container } from "./style";
+import { useAppDispatch, useAppSelector } from "../../utils/hooks";
+import { showFormTask } from "../../store/slices/modalSlice";
 
 const EmptyAction = () => {
-  const [modalForm, setModalForm] = useState<boolean>(false);
+  const tasksCount = useAppSelector((store) => store.todos.length);
+  const dispatch = useAppDispatch();
 
   return (
     <div css={container}>
       <Empty description="No Task" />
-      <Button onClick={() => setModalForm(true)} type="primary">
-        Create your first task ;{")"}
+      <Button onClick={() => dispatch(showFormTask())} type="primary">
+        {tasksCount > 0 ? "Create a task" : "Create your first task ;)"}
       </Button>
-      <TaskForm visible={modalForm} onClose={() => setModalForm(false)} />
     </div>
   );
 };

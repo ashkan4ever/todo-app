@@ -1,10 +1,11 @@
+/** @jsxImportSource @emotion/react */
 import React, { memo } from "react";
 import { Form, Formik } from "formik";
-import { useAppDispatch } from "../../../hooks";
-import { add, edit } from "../../../store/slices/todoSlice";
-import { ITask } from "../../../types";
+import { useAppDispatch } from "../../../utils/hooks";
+import { add, edit, ITask } from "../../../store/slices/todoSlice";
 import * as Yup from "yup";
 import { Input, Radio, Modal, Button } from "antd";
+import { buttonContainer, container, labelText } from "./style";
 
 const { TextArea } = Input;
 
@@ -20,7 +21,7 @@ const TaskForm = ({ visible, onClose, item }: IProps) => {
 
   const yupSchema = Yup.object().shape({
     title: Yup.string().required("sdfs"),
-    text: Yup.string().required(),
+    text: Yup.string(),
     priority: Yup.string().required(),
     status: Yup.string().required(),
     gifts: Yup.string(),
@@ -37,7 +38,12 @@ const TaskForm = ({ visible, onClose, item }: IProps) => {
   };
 
   return (
-    <Modal title="Add Task" footer={false} visible={visible} onCancel={onClose}>
+    <Modal
+      title={editMode ? "Edit Task" : "Add Task"}
+      footer={false}
+      visible={visible}
+      onCancel={onClose}
+    >
       <div>
         <Formik
           initialValues={initialValues}
@@ -51,12 +57,13 @@ const TaskForm = ({ visible, onClose, item }: IProps) => {
             onClose();
           }}
           render={(formikProps) => (
-            <Form>
+            <Form css={container}>
               <Input
                 name="title"
+                status={formikProps.errors.title ? "error" : ""}
                 value={formikProps.values.title}
                 onChange={formikProps.handleChange}
-                placeholder="title"
+                placeholder="title*"
               />
               <TextArea
                 name="text"
@@ -69,19 +76,25 @@ const TaskForm = ({ visible, onClose, item }: IProps) => {
                 name="gifts"
                 value={formikProps.values.gifts}
                 onChange={formikProps.handleChange}
-                placeholder="Gifts"
+                placeholder="Gifts and KPI for this task ;)"
               />
-              <Radio.Group
-                name="priority"
-                onChange={formikProps.handleChange}
-                value={formikProps.values.priority}
-              >
-                <Radio value="Low">Low</Radio>
-                <Radio value="Medium">Medium</Radio>
-                <Radio value="High">High</Radio>
-              </Radio.Group>
               <div>
-                <Button type="primary" htmlType="submit">
+                <label css={labelText} htmlFor="priority">
+                  Priority:
+                </label>
+                <Radio.Group
+                  id="priority"
+                  name="priority"
+                  onChange={formikProps.handleChange}
+                  value={formikProps.values.priority}
+                >
+                  <Radio value="Low">Low</Radio>
+                  <Radio value="Medium">Medium</Radio>
+                  <Radio value="High">High</Radio>
+                </Radio.Group>
+              </div>
+              <div css={buttonContainer}>
+                <Button block type="primary" htmlType="submit">
                   {editMode ? "Edit" : "Add"}
                 </Button>
               </div>

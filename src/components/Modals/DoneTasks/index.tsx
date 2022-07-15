@@ -1,14 +1,8 @@
-import React, { useId } from "react";
-import { Form, Formik } from "formik";
-import { useAppDispatch } from "../../../hooks";
-import { add, edit } from "../../../store/slices/todoSlice";
-import { ITask } from "../../../types";
-import * as Yup from "yup";
-import { Input, Radio, Modal, Button } from "antd";
-import { useAppSelector } from "../../../hooks";
+/** @jsxImportSource @emotion/react */
+import { Modal } from "antd";
+import { useAppSelector } from "../../../utils/hooks";
 import TaskItem from "../../../components/TaskItem";
-
-const { TextArea } = Input;
+import { listContainer } from "./style";
 
 interface IProps {
   visible: boolean;
@@ -16,16 +10,23 @@ interface IProps {
 }
 
 const DoneTasks = ({ visible, onClose }: IProps) => {
-  const todos = useAppSelector((store) => store.todos.filter(item => item.status === "Done"));
-  const dispatch = useAppDispatch();
+  const todos = useAppSelector((store) =>
+    store.todos.filter((item) => item.status === "Done")
+  );
 
   return (
-    <Modal title="Done Tasks" footer={false} visible={visible} onCancel={onClose}>
-      <div>
-        {todos
-          .map((item) => (
-            <TaskItem key={item.id} item={item} />
-          ))}
+    <Modal
+      title="Done Tasks"
+      footer={false}
+      visible={visible}
+      onCancel={onClose}
+      width={700}
+      bodyStyle={{ background: "#f5f5f5" }}
+    >
+      <div css={listContainer}>
+        {todos.map((item) => (
+          <TaskItem key={item.id} item={item} />
+        ))}
       </div>
     </Modal>
   );

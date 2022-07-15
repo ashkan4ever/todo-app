@@ -1,15 +1,22 @@
-import React, { useState } from "react";
-import { Form, Formik } from "formik";
-import { useAppDispatch } from "../../../hooks";
-import { add, edit, perform, remove } from "../../../store/slices/todoSlice";
-import { ITask } from "../../../types";
-import * as Yup from "yup";
-import { Input, Radio, Modal, Button, Space } from "antd";
-import { useAppSelector } from "../../../hooks";
-import TaskItem from "../../../components/TaskItem";
-import TaskForm from "../../../components/Modals/TaskForm";
+/** @jsxImportSource @emotion/react */
+import React, { useCallback, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
+import { ITask, perform, remove } from "../../../store/slices/todoSlice";
+import { Modal } from "antd";
+import Button from "antd-button-color";
+import {
+  buttonContainer,
+  container,
+  textContainer,
+  labelText,
+  titleContainer,
+  priorityContainer,
+} from "./style";
+import Priority from "../../Priority";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { closeShowTask, showFormTask } from "../../../store/slices/modalSlice";
 
-const { TextArea } = Input;
+const { confirm } = Modal;
 
 interface IProps {
   visible: boolean;
@@ -18,37 +25,84 @@ interface IProps {
 }
 
 const TaskShow = ({ visible, onClose, item }: IProps) => {
+  const task =
+    useAppSelector((store) =>
+      store.todos.find((todo) => todo.id === item.id)
+    ) || item;
   const dispatch = useAppDispatch();
-  const [modalForm, setModalForm] = useState<boolean>(false);
+
+  const showDeleteConfirm = useCallback(
+    (removeEvent: React.MouseEvent<HTMLElement, MouseEvent>) => {
+      confirm({
+        title: "Are you sure you want to delete this task?",
+        icon: <ExclamationCircleOutlined />,
+        okText: "Yes",
+        okType: "danger",
+        cancelText: "No",
+        onOk() {
+          dispatch(remove(task));
+          onClose(removeEvent);
+        },
+      });
+    },
+    [task, dispatch, onClose]
+  );
 
   return (
     <>
       <Modal
-        title={item.title}
+        title=""
         footer={false}
         visible={visible}
         onCancel={onClose}
+        width={700}
       >
-        <div>
-          <h1>{item.title}</h1>
-          <p>{item.text}</p>
-          {item.gifts && <p>{item.gifts}</p>}
-          <Space>
-            <Button onClick={() => setModalForm(true)}>Edit</Button>
-            <Button onClick={() => dispatch(perform(item))} type="primary">
-              Done
-            </Button>
-            <Button onClick={() => dispatch(remove(item))} danger>
-              Delete
-            </Button>
-          </Space>
+        <div css={container}>
+          <div css={titleContainer}>
+            <div css={priorityContainer}>
+              <Priority priority={task.priority} align="left" />
+            </div>
+            <h2>{task.title}</h2>
+          </div>
+          <div css={textContainer}>
+            {task.text && (
+              <p>
+                <span css={labelText}>Description: </span>
+                {task.text}
+              </p>
+            )}
+            {task.gifts && (
+              <p>
+                <span css={labelText}>Gifts and KPI: </span>
+                {task.gifts}
+              </p>
+            )}
+          </div>
+          {task.status !== "Done" && (
+            <div css={buttonContainer}>
+              <Button
+                type="info"
+                onClick={() => dispatch(showFormTask(task))}
+                ghost
+              >
+                Edit
+              </Button>
+              <Button
+                type="success"
+                onClick={() => {
+                  dispatch(perform(task));
+                  dispatch(closeShowTask());
+                }}
+              >
+                Done
+              </Button>
+              <Button type="danger" onClick={showDeleteConfirm} danger>
+                Delete
+              </Button>
+            </div>
+          )}
         </div>
       </Modal>
-      <TaskForm
-        visible={modalForm}
-        onClose={() => setModalForm(false)}
-        item={item}
-      />
     </>
   );
 };

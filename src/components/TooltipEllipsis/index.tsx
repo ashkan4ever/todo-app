@@ -12,9 +12,7 @@ interface IProps {
 const TaskItem = ({ text, renderProp }: IProps) => {
   return (
     <div css={textStyle}>
-      <Tooltip title={text}>
-        {renderProp(textStyle)}
-      </Tooltip>
+      <Tooltip title={text}>{renderProp(textStyle)}</Tooltip>
     </div>
   );
 };

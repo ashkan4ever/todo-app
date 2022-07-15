@@ -6,4 +6,4 @@ export const textStyle = css`
   white-space: nowrap;
   display: inline-block;
   max-width: 100%;
-`
+`;

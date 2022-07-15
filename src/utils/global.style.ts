@@ -12,10 +12,15 @@ export default css`
     padding: 0;
     min-height: 100vh;
     background-color: #666;
-    background: url("/hive.jpeg");
+    background: url("/hive.jpg");
     max-width: 100%;
   }
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     margin: 0;
     padding: 0;
   }
